@@ -97,6 +97,17 @@ $MAKE_CMD -j"$CPUS" || exit 1
 $MAKE_CMD install
 $MAKE_CMD clean
 
+cd "$REPOS_DIR/libs-corebase"
+./configure \
+  CPPFLAGS="-I/System/Library/Headers" \
+  LDFLAGS="-L/System/Library/Libraries"
+$MAKE_CMD -j"$CPUS" || exit 1
+$MAKE_CMD install
+$MAKE_CMD clean
+
+# Exit here for now until userland mostly works
+exit 0
+
 # Patch libs-gui
 echo "Patching libs-gui..."
 ( cd "$WORKDIR/Library/Patches" && REPO_DIR="$REPOS_DIR/libs-gui" sh ./apply_libs-gui-menu-mouseup_patch.sh )
